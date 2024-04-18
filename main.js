@@ -1,16 +1,14 @@
 import * as sdk from "@d-id/client-sdk"
 
-// PLACE YOUR KEYS HERE:
-
 // PROD
-let auth = { type: 'key', clientKey: "" };
-let agentId = ""
+let auth = { type: 'key', clientKey: "XXXX" };
+let agentId = "agt_lBMfZpOf"
 let baseURL = "https://api.d-id.com"
 let wsURL = "wss://notifications.d-id.com"
 
 // STAGING
-// let auth = { type: 'key', clientKey: ""};
-// let agentId = ""
+// let auth = { type: 'key', clientKey: "ZZZZ"};
+// let agentId = "agt_kU9nzMjB"
 // let baseURL = "https://api-dev.d-id.com"
 // let wsURL = "wss://notifications-dev.d-id.com"
 
@@ -63,7 +61,7 @@ const callbacks = {
     if (state == "STOP") {
       videoElement.classList.toggle("animated")
       videoElement.srcObject = undefined
-      videoElement.src = agent.agent.presenter.idle_video
+      videoElement.src = agent.agent.presenter.idle_video 
       setTimeout(() => {
         videoElement.classList.remove("animated")
       }, 1000);
@@ -196,15 +194,15 @@ function rate(messageID, score) {
   console.log("RATE:", messageID, score)
   let y = agent.rate(messageID, score)
   console.log("RATE RESULT:", y)
-  console.log(agent.agent)
 }
 
-function connect() {
+function reconnect() {
   document.querySelector("#hidden").style.display = "none"
-  let y = agent.connect()
-  console.log("agent.connect()")
-  // console.log(y)
+  let y = agent.reconnect()
+  console.log("agent.reconnect()")
+  console.log(y)
 }
+
 
 function terminate() {
   console.log("Called the 'Disconnect' method")
@@ -215,7 +213,7 @@ function terminate() {
 
 chatButton.addEventListener('click', () => chat())
 speakButton.addEventListener('click', () => speak())
-reconnectButton.addEventListener('click', () => connect())
+reconnectButton.addEventListener('click', () => reconnect())
 
 window.addEventListener('load', () => { textArea.focus() })
 
@@ -228,4 +226,5 @@ document.querySelector("#thumbnail").style.backgroundImage = `url(${agent.agent.
 document.querySelector("#previewName").innerHTML = agent.agent.preview_name
 
 
-connect()
+console.log("agent.connect()")
+agent.connect()
