@@ -1,20 +1,26 @@
+// CSS and SDK imports
+import './style.css'
 import * as sdk from "@d-id/client-sdk"
 
+// Enter your Agent's Embedded Client Key and ID (From D-ID Studio):
 // PROD
-let auth = { type: 'key', clientKey: "XXXX" };
+let auth = { type: 'key', clientKey: "Z29vZ2xlLW9hdXRoMnwxMDE3OTU1MTM4Mjg1Mzg2MTE4MDY6MGpqdjZjdWJDY2k0TUhPcEVsTnBR" };
 let agentId = "agt_lBMfZpOf"
 let baseURL = "https://api.d-id.com"
 let wsURL = "wss://notifications.d-id.com"
 
 // STAGING
-// let auth = { type: 'key', clientKey: "ZZZZ"};
-// let agentId = "agt_kU9nzMjB"
+// let auth = { type: 'key', clientKey: "Z29vZ2xlLW9hdXRoMnwxMDE3OTU1MTM4Mjg1Mzg2MTE4MDY6U080X3lRVFV0bWtUMXZHaWF1aE90"};
+// let agentId = "agt_MULXmCd2"
 // let baseURL = "https://api-dev.d-id.com"
 // let wsURL = "wss://notifications-dev.d-id.com"
 
 
+// Variables declaration
 let videoElement = document.querySelector("#videoElement")
 let textArea = document.querySelector("#textArea")
+let langSelect = document.querySelector("#langSelect")
+let speechButton = document.querySelector("#speechButton");
 let answers = document.querySelector("#answers")
 let connectionLabel = document.querySelector("#connectionLabel")
 let chatButton = document.querySelector('#chatButton')
@@ -22,209 +28,175 @@ let speakButton = document.querySelector('#speakButton')
 let reconnectButton = document.querySelector('#reconnectButton')
 let srcObject
 
+// Define the Agent's SDK callback methods and their behavior: 
 const callbacks = {
 
+  // Link the HTML Video element with the WebRTC Stream Object (Video & Audio)
   onSrcObjectReady(value) {
+    console.log("onSrcObjectReady()")
     videoElement.srcObject = value
-    console.log("onSrcObjectReady()", value, "Attached to:", videoElement)
     srcObject = value
     return srcObject
   },
 
+  // Connection States callback method
   onConnectionStateChange(state) {
+
     console.log("onConnectionStateChange(): ", state)
-    // if (state == "disconnected" || state == "closed") {
-    if (state == 0) {
+
+    // (2 == "connected")
+    if (state == 2) {
+      // Setting the 'Enter' Key to Send a message
+      textArea.addEventListener('keypress', (event) => { if (event.key === "Enter") { event.preventDefault(); chat() } })
+
+      chatButton.removeAttribute("disabled")
+      speakButton.removeAttribute("disabled")
+      langSelect.removeAttribute("disabled")
+      speechButton.removeAttribute("disabled")
+      document.querySelector("#hidden").style.display = "none"
+      connectionLabel.innerHTML = "Online"
+    }
+
+    // (state == "disconnected" || state == "closed") {
+    else if (state == 0) {
       textArea.removeEventListener('keypress', (event) => { if (event.key === "Enter") { event.preventDefault(); chat() } })
       document.querySelector("#hidden_h2").innerHTML = `${agent.agent.preview_name} Disconnected`
       document.querySelector("#hidden").style.display = ""
-      connectionLabel.innerHTML = ""
+      document.querySelector("#container").style.display = "none"
       chatButton.setAttribute("disabled", true)
       speakButton.setAttribute("disabled", true)
+      langSelect.setAttribute("disabled", true)
+      speechButton.setAttribute("disabled", true)
+      connectionLabel.innerHTML = ""
     }
-    // else if(state == "connected") {
-    else if (state == 2) {
-      textArea.addEventListener('keypress', (event) => { if (event.key === "Enter") { event.preventDefault(); chat() } })
-      connectionLabel.innerHTML = "Online"
-      chatButton.removeAttribute("disabled")
-      speakButton.removeAttribute("disabled")
-    }
-
   },
 
-  onChatEvents(progress, data) {
-    console.log("onChatEvents():\n", "Progress:", progress,"\n", "Data:", data)
-  },
-
-  onVideoStateChange(state, data) {
+  // Switching between the idle and streamed videos
+  onVideoStateChange(state) {
     console.log("onVideoStateChange(): ", state)
     if (state == "STOP") {
-      videoElement.classList.toggle("animated")
       videoElement.srcObject = undefined
-      videoElement.src = agent.agent.presenter.idle_video 
-      setTimeout(() => {
-        videoElement.classList.remove("animated")
-      }, 1000);
-
+      videoElement.src = agent.agent.presenter.idle_video
     }
     else {
-      videoElement.classList.toggle("animated")
       videoElement.src = ""
       videoElement.srcObject = srcObject
-
-      //Display Agent Answer with Video
-      let agentAnswer = document.querySelectorAll('.agentAnswer')
-      let last = agentAnswer.length - 1;
-      if (agentAnswer.length != 0){
-        agentAnswer[last].style.display = ""
-        answers.scrollTop = answers.scrollHeight
-      }
-    
-
       connectionLabel.innerHTML = "Online"
-
-      setTimeout(() => {
-        videoElement.classList.remove("animated")
-      }, 1000);
     }
   },
 
+  // New messages callback method
   onNewMessage(messages) {
+    // We want to show only the last message from the entire 'messages' array
     let lastIndex = messages.length - 1
     let msg = messages[lastIndex]
-    if (lastIndex == 0) {
-      console.log("onNewMessage(), Welcome message",msg)
-    
+    console.log(msg)
+
+    // Show Rating buttons only for the Agent's (assistant) answers
+    if (msg.role == "assistant" && messages.length != 1) {
+      answers.innerHTML += `${timeDisplay()} - [${msg.role}] : ${msg.content}  <button id='${msg.id}_plus' title='agent.rate() -> Rate this answer (+)'>+</button> <button id='${msg.id}_minus' title='agent.rate() -> Rate this answer (-)'>-</button> <br>`
+
+      document.getElementById(`${msg.id}_plus`).addEventListener('click', () => rate(msg.id, 1))
+      document.getElementById(`${msg.id}_minus`).addEventListener('click', () => rate(msg.id, -1))
     } else {
-      console.log("onNewMessage(), Last message in array:",msg)
-
-        // Removing the weird empty one
-      if (msg.content !== "" && msg.role == "assistant") {
-
-        connectionLabel.innerHTML = "Thinking..."
-        const formattedTime = timeDisplay();
-      
-        // To avoid flickering - used create elements and "append" instead of a simple '.innerHTML +='  
-        let agentAnswer = document.createElement("div")
-        agentAnswer.setAttribute("id", msg.id)
-        agentAnswer.classList.add("agentAnswer")
-        agentAnswer.style.display = "none"
-        let innerDiv = document.createElement("div");
-        innerDiv.classList.add("innerDiv")
-        innerDiv.innerHTML = `<video class="idle" width="250" height="250" src="${agent.agent.presenter.idle_video}" style="display: none;"></video>`
-        agentAnswer.appendChild(innerDiv)
-        agentAnswer.innerHTML +=
-        `<div style="display: flex;justify-content: space-between;">
-          <span>${msg.content}</span>
-          <span class='time'>${formattedTime}</span>
-          </div>
-          <div class="rateBtns">
-          <button id='${msg.id}_plus'>+</button>
-          <button id='${msg.id}_minus'>-</button>
-          </div>
-        `
-        answers.append(agentAnswer)
-
-        // Rating buttons event listeners
-        document.getElementById(`${msg.id}_plus`).addEventListener('click', () => rate(msg.id,1))
-        document.getElementById(`${msg.id}_minus`).addEventListener('click', () => rate(msg.id,-1))
-
-        // Place the active video in the element
-        let newParent = document.querySelectorAll('.innerDiv');
-        let lastIndex = newParent.length - 1;
-        newParent[lastIndex].appendChild(videoElement);
-        videoElement.style.display = ""
-
-        // Show the hidden video in the penultimate div (instead of empty space)
-        let penu = lastIndex - 1
-        if (penu !== -1) {
-          let penuDiv = document.querySelectorAll(".innerDiv .idle")[penu]
-          penuDiv.style.display = ""
-        }
-      }
+      answers.innerHTML += `${timeDisplay()} - [${msg.role}] : ${msg.content}  <br>`
     }
-  }
-};
 
+    // Auto-scroll to the last message 
+    answers.scrollTop = answers.scrollHeight
+  }
+}
+
+// Local functions to utilize the Agent's SDK methods:
+
+// agent.speak() -> Streaming API (Bring your own LLM)
+function speak() {
+  let val = textArea.value
+  // Minimum of 3 characters?
+  if (val !== "" && val.length > 2) {
+    let speak = agent.speak(
+      {
+        type: "text",
+        input: val
+      }
+    )
+    console.log(`agent.speak("${val}")`)
+
+    connectionLabel.innerHTML = "Streaming.."
+  }
+}
+// agent.chat() -> Agents API (Communicating with your created Agent and its knowledge - D-ID's LLM)
+function chat() {
+  let val = textArea.value
+  if (val !== "") {
+    let chat = agent.chat(val)
+    console.log("agent.chat()")
+
+    connectionLabel.innerHTML = "Thinking.."
+    textArea.value = ""
+  }
+
+}
+
+// agent.rate() -> Rating the Agent's answers - for future Agents Analytics feature
+function rate(messageID, score) {
+  let rate = agent.rate(messageID, score)
+  console.log(`Message ID: ${messageID} Rated:${score}\n`, "Result", rate)
+}
+
+// agent.reconnect() -> Reconnect the Agent to a new WebRTC session
+function reconnect() {
+  let reconnect = agent.reconnect()
+  console.log("agent.reconnect()", reconnect)
+
+  // Hiding the Disconnection overlay and restoring the page:
+  document.querySelector("#hidden").style.display = "none"
+  document.querySelector("#container").style.display = "flex"
+}
+
+// agent.terminate() -> Terminates the current Agent's WebRTC session (Not implemneted in this example)
+function terminate() {
+  let terminate = agent.disconnect()
+  console.log("agent.terminate()", terminate)
+}
+
+// JS utility function for 'cleaner' time display in (HH:MM:SS)
 function timeDisplay() {
   const currentTime = new Date();
   const hours = currentTime.getHours().toString().padStart(2, '0');
   const minutes = currentTime.getMinutes().toString().padStart(2, '0');
-  const formattedTime = `${hours}:${minutes}`;
+  const seconds = currentTime.getSeconds().toString().padStart(2, '0');
+  const formattedTime = `${hours}:${minutes}:${seconds}`;
   return formattedTime;
 }
 
-function speak() {
-  let val = textArea.value
-  if (val !== "") {
-    console.log("Called the 'Speak' method")
-    let y = agent.speak(
-      {
-        type: "text",
-        provider: agent.agent.presenter.voice,
-        input: val
-      }
-    )
-    console.log(y)
-  }
-}
-
-function chat() {
-  let val = textArea.value
-  const formattedTime = timeDisplay()
-  if (val !== "") {
-    let div = document.createElement('div');
-    div.classList.add("userMessage")
-    div.innerHTML = `<span>${val}</span><span class='time'>${formattedTime}</span>`
-    answers.append(div)
-
-    console.log("agent.chat()")
-    answers.scrollTop = answers.scrollHeight
-
-
-    let y = agent.chat(val)
-    // Clear textArea
-    textArea.value = ""
-    // console.log(y)
-  }
-
-}
-
-function rate(messageID, score) {
-  console.log("RATE:", messageID, score)
-  let y = agent.rate(messageID, score)
-  console.log("RATE RESULT:", y)
-}
-
-function reconnect() {
-  document.querySelector("#hidden").style.display = "none"
-  let y = agent.reconnect()
-  console.log("agent.reconnect()")
-  console.log(y)
-}
-
-
-function terminate() {
-  console.log("Called the 'Disconnect' method")
-  let y = agent.disconnect()
-  console.log(y)
-  videoElement.style.display = "none"
-}
-
+// Event Listeners for Agent's built-in methods
 chatButton.addEventListener('click', () => chat())
 speakButton.addEventListener('click', () => speak())
 reconnectButton.addEventListener('click', () => reconnect())
+speechButton.addEventListener('click', () => toggleStartStop())
 
-window.addEventListener('load', () => { textArea.focus() })
+// Focus on input and button disabling when loading
+window.addEventListener('load', () => {
+  textArea.focus(), 
+  chatButton.setAttribute("disabled", true)
+  speakButton.setAttribute("disabled", true)
+  langSelect.setAttribute("disabled", true)
+  speechButton.setAttribute("disabled", true)
+})
 
 
+// *** Finally ***
+// Calling the SDK with all that is configured above!
 let agent = await sdk.createAgentManager(agentId, { callbacks, auth, baseURL, wsURL });
 
-console.log("sdk.createAgentManager", agent)
+console.log("sdk.createAgentManager", agent.agent)
 
-document.querySelector("#thumbnail").style.backgroundImage = `url(${agent.agent.preview_thumbnail})`
+// Showing the Agent's name in the Header
 document.querySelector("#previewName").innerHTML = agent.agent.preview_name
 
-
+// agent.connect() -> Connecting the Agent to a new WebRTC session
 console.log("agent.connect()")
 agent.connect()
+
+// Happy Coding! 

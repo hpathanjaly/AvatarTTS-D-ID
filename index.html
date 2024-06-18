@@ -3,40 +3,49 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Agents SDK - Vite & VanillaJS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <title>D-ID Agents SDK Skeleton App</title>
 </head>
 
 <body>
-  <div class="container">
-    <header>
-      <div>
-        <div id="thumbnail"></div>
-        <div style="display: inline-block;font-weight: bold; margin-left: 10px;">
-          <span id="previewName">Your Agent</span>
-          <br>
-          <span id="connectionLabel" style="font-weight: lighter; font-size: smaller; display:inline-block">Connecting</span>
-        </div>
-
-      </div>
-    </header>
-    <div id="answers" class="animated"></div>
-    <div class="card">
-      <input id="textArea" placeholder="Type a message" autocomplete=off autofocus></input>
-      <button id="chatButton" type="button" disabled>Chat</button>
-      <button id="speakButton" type="button" disabled>Speak</button>
+  <div id="container">
+    <div class="header">
+      <span id="previewName">Your Agent</span>
+      <span id="connectionLabel">Connecting</span>
     </div>
+
+    <div>
+      <video id="videoElement" poster="" width="250" height="250" autoplay loop></video>
+    </div>
+
+    <div class="inputsDiv">
+      <textarea id="textArea" placeholder="Type a message" autofocus></textarea>
+      <button id="speechButton" title="Speech to Text - Web Speech API (MDN)">&#127908;</button>
+      <select id="langSelect" title="Speech to Text - Language Selection">
+        <option value="en_US" default>English</option>
+        <option value="he_IL">Hebrew</option>
+        <option value="es_ES">Spanish</option>
+        <option value="fr_FR">French</option>
+        <option value="de_DE">German</option>
+        <option value="ru_RU">Russian</option>
+      </select>
+    </div>
+
+    <div>
+      <button id="chatButton" title="agent.chat() -> Agents API" >Chat</button>
+      <button id="speakButton" title="agent.speak() -> Streaming API (Bring your own LLM)">Speak</button>
+    </div>
+    <div id="answers"></div>
   </div>
-  <video id="videoElement" width="250" height="250" autoplay style="display: none;"></video>
-
-
-<div id="hidden" style="display: none;">
-<h2 id="hidden_h2"></h2>
-<button id="reconnectButton" >Reconnect?</button>
+  <div id="hidden">
+    <h2 id="hidden_h2"></h2>
+    <button id="reconnectButton" title="agent.reconnect() -> Reconnects the previous WebRTC session">Reconnect?</button>
   </div>
 
   <script type="module" src="/main.js"></script>
+  <script src="speech.js"></script>
 </body>
 
 </html>
