@@ -4,10 +4,10 @@ In the Terminal:
 
 `cd:/ Project's folder`
 
+`npm init`
+
 `npm create vite@latest`
 Select : JavaScript, Vanilla
-
-`npm init`
 
 `npm i @d-id/client-sdk`
 
