@@ -5,6 +5,7 @@ In the Terminal:
 `cd:/ Project's folder`
 
 `npm create vite@latest`
+Select : JavaScript, Vanilla
 
 `npm init`
 
