@@ -1,4 +1,4 @@
-Simple vite project in Vanilla JavaScript
+**D-ID Agents SDK - vite project in Vanilla JavaScript**
 
 In the Terminal:
 
@@ -10,7 +10,8 @@ In the Terminal:
 
 `npm i @d-id/client-sdk`
 
-Paste your Agent ID and Client Key in the `main.js` file
+Paste your Agent ID and Client Key in the `main.js` file and save.
 
-Then, `npm run dev`
+Run: `npm run dev`
+
 Open [localhost://3000](http://localhost:3000/)
