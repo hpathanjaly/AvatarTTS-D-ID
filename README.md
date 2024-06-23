@@ -2,18 +2,20 @@
 
 In the Terminal:
 
-`npm init`
+- `npm init`
 
-`npm i vite`
+- `npm i vite`
 
-`npm i @d-id/client-sdk`
+- `npm i @d-id/client-sdk`
 
-`npm i`
+- `npm i`
 
-In the created `package.json` add the following to the `scripts` object:
+In the created `package.json` file -  add the following to the `scripts` object:
 
-`"dev": "vite --port 3000"`
+- `"dev": "vite --port 3000"`
 
+
+<br>
 
 Paste your Agent ID and Client Key in the `main.js` file and save.
 
