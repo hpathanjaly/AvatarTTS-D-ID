@@ -10,6 +10,7 @@ In the Terminal:
 
 `npm i @d-id/client-sdk`
 
-`npm run dev`
-
 Paste your Agent ID and Client Key in the `main.js` file
+
+Then, `npm run dev`
+Open [localhost://3000](http://localhost:3000/)
