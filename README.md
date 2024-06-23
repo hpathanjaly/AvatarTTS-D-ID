@@ -7,9 +7,10 @@ Select : JavaScript, Vanilla
 
 Go to the created Vite Folder
 
+`npm i @d-id/client-sdk`
 `npm i`
 
-`npm i @d-id/client-sdk`
+Replace the default files created by vite with the files from this repo.
 
 Paste your Agent ID and Client Key in the `main.js` file and save.
 
