@@ -4,16 +4,16 @@ import * as sdk from "@d-id/client-sdk"
 
 // Enter your Agent's Embedded Client Key and ID (From D-ID Studio):
 // PROD
-let auth = { type: 'key', clientKey: "Z29vZ2xlLW9hdXRoMnwxMDE3OTU1MTM4Mjg1Mzg2MTE4MDY6MGpqdjZjdWJDY2k0TUhPcEVsTnBR" };
-let agentId = "agt_lBMfZpOf"
-let baseURL = "https://api.d-id.com"
-let wsURL = "wss://notifications.d-id.com"
+// let auth = { type: 'key', clientKey: "CLIENT_KEY_FROM_STUDIO" };
+// let agentId = "AGENT_ID_FROM_STUDIO"
+// let baseURL = "https://api.d-id.com"
+// let wsURL = "wss://notifications.d-id.com"
 
 // STAGING
-// let auth = { type: 'key', clientKey: "Z29vZ2xlLW9hdXRoMnwxMDE3OTU1MTM4Mjg1Mzg2MTE4MDY6U080X3lRVFV0bWtUMXZHaWF1aE90"};
-// let agentId = "agt_MULXmCd2"
-// let baseURL = "https://api-dev.d-id.com"
-// let wsURL = "wss://notifications-dev.d-id.com"
+let auth = { type: 'key', clientKey: "CLIENT_KEY_FROM_STUDIO"};
+let agentId = "AGENT_ID_FROM_STUDIO"
+let baseURL = "https://api-dev.d-id.com"
+let wsURL = "wss://notifications-dev.d-id.com"
 
 
 // Variables declaration
@@ -33,7 +33,7 @@ const callbacks = {
 
   // Link the HTML Video element with the WebRTC Stream Object (Video & Audio)
   onSrcObjectReady(value) {
-    console.log("onSrcObjectReady()")
+    console.log("onSrcObjectReady()", value)
     videoElement.srcObject = value
     srcObject = value
     return srcObject
@@ -44,8 +44,7 @@ const callbacks = {
 
     console.log("onConnectionStateChange(): ", state)
 
-    // (2 == "connected")
-    if (state == 2) {
+    if (state == "connected") {
       // Setting the 'Enter' Key to Send a message
       textArea.addEventListener('keypress', (event) => { if (event.key === "Enter") { event.preventDefault(); chat() } })
 
@@ -57,8 +56,7 @@ const callbacks = {
       connectionLabel.innerHTML = "Online"
     }
 
-    // (state == "disconnected" || state == "closed") {
-    else if (state == 0) {
+    else if (state == "disconnected" || state == "closed") {
       textArea.removeEventListener('keypress', (event) => { if (event.key === "Enter") { event.preventDefault(); chat() } })
       document.querySelector("#hidden_h2").innerHTML = `${agent.agent.preview_name} Disconnected`
       document.querySelector("#hidden").style.display = ""
@@ -154,10 +152,10 @@ function reconnect() {
   document.querySelector("#container").style.display = "flex"
 }
 
-// agent.terminate() -> Terminates the current Agent's WebRTC session (Not implemneted in this example)
-function terminate() {
+// agent.disconnect() -> Terminates the current Agent's WebRTC session (Not implemneted in this example)
+function disconnect() {
   let terminate = agent.disconnect()
-  console.log("agent.terminate()", terminate)
+  console.log("agent.disconnect()", disconnect)
 }
 
 // JS utility function for 'cleaner' time display in (HH:MM:SS)
@@ -189,8 +187,9 @@ window.addEventListener('load', () => {
 // *** Finally ***
 // Calling the SDK with all that is configured above!
 let agent = await sdk.createAgentManager(agentId, { callbacks, auth, baseURL, wsURL });
+console.log("sdk.createAgentManager()", agent.agent)
 
-console.log("sdk.createAgentManager", agent.agent)
+// console.log("sdk.getAgent()",sdk.getAgent(agentId, auth, baseURL))
 
 // Showing the Agent's name in the Header
 document.querySelector("#previewName").innerHTML = agent.agent.preview_name
