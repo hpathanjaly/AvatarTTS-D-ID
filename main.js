@@ -187,7 +187,7 @@ window.addEventListener('load', () => {
 
 
 // *** Finally ***
-let agent = await sdk.createAgentManager(agentId, { callbacks, auth });
+let agentManager = await sdk.createAgentManager(agentId, { callbacks, auth });
 
 console.log("sdk.createAgentManager()", agentManager)
 
