@@ -1,6 +1,6 @@
 **D-ID Agents SDK - vite project in Vanilla JavaScript**
 
-In the Terminal:
+In the Terminal, navigate to this project folder and then type the following:
 
 - `npm init`
 
