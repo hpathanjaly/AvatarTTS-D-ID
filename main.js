@@ -48,6 +48,7 @@ const callbacks = {
       speechButton.removeAttribute("disabled")
       document.querySelector("#hidden").style.display = "none"
       connectionLabel.innerHTML = "Online"
+      videoElement.src = agentManager.agent.presenter.idle_video
     }
 
     else if (state == "disconnected" || state == "closed") {
