@@ -1,4 +1,4 @@
-**D-ID Agents SDK - vite project in Vanilla JavaScript**
+**D-ID Agents SDK Demo - Vite & Vanilla JavaScript**
 
 In the Terminal, navigate to this project folder and then run the following commands:
 
