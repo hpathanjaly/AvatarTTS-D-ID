@@ -8,7 +8,6 @@ In the Terminal, navigate to this project folder and then type the following:
 
 - `npm i @d-id/client-sdk`
 
-- `npm i`
 
 In the created `package.json` file -  add the following to the `scripts` object:
 
