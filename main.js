@@ -4,11 +4,11 @@ import './style.css'
 // 1. Import the Agents SDK library
 import * as sdk from "@d-id/client-sdk"
 
-// 2. Paste the 'data-client-key' in the 'auth' variable
-let auth = { type: 'key', clientKey: "" };
-
-// 3. Paste the `data-agent-id' in the 'agentId' variable
+// 2. Paste the `data-agent-id' in the 'agentId' variable
 let agentId = ""
+
+// 3. Paste the 'data-client-key' in the 'auth.clientKey' variable
+let auth = { type: 'key', clientKey: "" };
 
 // HTML Variables declaration
 let videoElement = document.querySelector("#videoElement")
@@ -188,7 +188,8 @@ window.addEventListener('load', () => {
 
 
 // *** Finally ***
-let agentManager = await sdk.createAgentManager(agentId, { callbacks, auth });
+// 5. Create the 'agentManager' instance with the values created in previous steps
+let agentManager = await sdk.createAgentManager(agentId, { auth, callbacks });
 
 console.log("sdk.createAgentManager()", agentManager)
 
@@ -200,4 +201,4 @@ document.querySelector("#previewName").innerHTML = agentManager.agent.preview_na
 console.log("agentManager.connect()")
 agentManager.connect()
 
-// Happy Coding! 
+// Happy Coding!
