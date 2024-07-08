@@ -17,8 +17,11 @@ In the created `package.json` file -  add the following to the `scripts` object:
 
 Follow the Instructions in the "Prerequisites" section in the [Agents SDK Overview Page](http://link-to-docs.com) Documentation 
 
-Paste the `data-client-key` and the `data-agent-id` in their variables at the top of the `main.js` file and save.
+- Paste the `data-client-key` and the `data-agent-id` in their variables at the top of the `main.js` file and save.
+  
+<br>
 
 In the terminal - run `npm run dev`
+
 
 Open [http://localhost:3000/](http://localhost:3000/)
