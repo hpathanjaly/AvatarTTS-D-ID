@@ -17,14 +17,14 @@
     </div>
 
     <div>
-      <video id="videoElement" poster="" width="250" height="250" autoplay loop></video>
+      <video id="videoElement" width="250" height="250" autoplay loop></video>
     </div>
 
     <div>
-      <button id="chatButton" title="agentManager.chat() -> Communicate with your Agent (D-ID LLM)" >Chat</button>
+      <button id="chatButton" title="agentManager.chat() -> Communicate with your Agent (D-ID LLM)">Chat</button>
       <button id="speakButton" title="agentManager.speak() -> Streaming API (Bring your own LLM)">Speak</button>
     </div>
-    
+
     <div class="inputsDiv">
       <textarea id="textArea" placeholder="Type a message" autofocus></textarea>
     </div>
@@ -43,12 +43,13 @@
       <button id="speechButton" title="Speech to Text - Web Speech API (MDN)">&#127908;</button>
     </div>
 
- 
+
     <div id="answers"></div>
   </div>
   <div id="hidden">
     <h2 id="hidden_h2"></h2>
-    <button id="reconnectButton" title="agentManager.reconnect() -> Reconnects the previous WebRTC session">Reconnect</button>
+    <button id="reconnectButton"
+      title="agentManager.reconnect() -> Reconnects the previous WebRTC session">Reconnect</button>
   </div>
   <script type="module" src="/main.js"></script>
   <script src="webSpeechAPI.js"></script>
