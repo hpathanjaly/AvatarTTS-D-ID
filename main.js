@@ -10,6 +10,7 @@ let agentId = ""
 // 3. Paste the 'data-client-key' in the 'auth.clientKey' variable
 let auth = { type: 'key', clientKey: "" };
 
+
 // HTML Variables declaration
 let videoElement = document.querySelector("#videoElement")
 let textArea = document.querySelector("#textArea")
@@ -48,7 +49,6 @@ const callbacks = {
       speechButton.removeAttribute("disabled")
       document.querySelector("#hidden").style.display = "none"
       connectionLabel.innerHTML = "Online"
-      videoElement.src = agentManager.agent.presenter.idle_video
     }
 
     else if (state == "disconnected" || state == "closed") {
@@ -108,6 +108,9 @@ const callbacks = {
   }
 
 }
+
+// 5. Define the Stream options object (Optional)
+let streamOptions = { compatibilityMode: "auto", streamWarmup: true }
 
 // Local functions to utilize the Agent's SDK methods:
 
@@ -180,7 +183,7 @@ speechButton.addEventListener('click', () => toggleStartStop())
 // Focus on input and button disabling when loading
 window.addEventListener('load', () => {
   textArea.focus(),
-    chatButton.setAttribute("disabled", true)
+  chatButton.setAttribute("disabled", true)
   speakButton.setAttribute("disabled", true)
   langSelect.setAttribute("disabled", true)
   speechButton.setAttribute("disabled", true)
@@ -188,17 +191,16 @@ window.addEventListener('load', () => {
 
 
 // *** Finally ***
-// 5. Create the 'agentManager' instance with the values created in previous steps
-let agentManager = await sdk.createAgentManager(agentId, { auth, callbacks });
+// 6. Create the 'agentManager' instance with the values created in previous steps
+let agentManager = await sdk.createAgentManager(agentId, { auth, callbacks, streamOptions });
 
 console.log("sdk.createAgentManager()", agentManager)
 
-
-// Showing the Agent's name in the Header
+// Displaying the Agent's name in the HTML Header
 document.querySelector("#previewName").innerHTML = agentManager.agent.preview_name
 
 // agentManager.connect() method -> Creating a new WebRTC session and connecting it to the Agent
 console.log("agentManager.connect()")
 agentManager.connect()
 
-// Happy Coding!
+// Happy Coding! 
