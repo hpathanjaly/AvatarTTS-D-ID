@@ -15,7 +15,7 @@ In the created `package.json` file -  add the following to the `scripts` object:
 
 <br>
 
-Fetch the `data-client-key` and the `data-agent-id` as explained in the [Agents SDK Overview Page](http://link-to-docs.com).
+Fetch the `data-client-key` and the `data-agent-id` as explained in the [Agents SDK Overview Page](http://link-to-doc2s.com).
 <br>
 Paste these in their variables at the top of the `main.js` file and save.
   
