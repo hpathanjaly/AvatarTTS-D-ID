@@ -1,6 +1,6 @@
 **D-ID Agents SDK Demo - Vite & Vanilla JavaScript**
 
-In the Terminal, navigate to this project folder and then run the following commands:
+In the Terminal, navigate to this project folder and run the following commands:
 
 - `npm init`
 
@@ -15,9 +15,9 @@ In the created `package.json` file -  add the following to the `scripts` object:
 
 <br>
 
-Fetch the `data-client-key` and the `data-agent-id` as explained in the [Agents SDK Overview Page](http://link-to-doc2s.com).
+Fetch the `data-client-key` and the `data-agent-id` as explained on the [Agents SDK Overview Page](https://docs.d-id.com/reference/agents-sdk-overview).
 <br>
-Paste these in their variables at the top of the `main.js` file and save.
+Paste these into their respective variables at the top of the `main.js` file and save.
   
 
 In the terminal - run `npm run dev`
