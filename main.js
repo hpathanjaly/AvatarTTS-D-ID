@@ -70,18 +70,19 @@ const callbacks = {
 
     // Switching between the idle and streamed videos
     onVideoStateChange(state) {
-        console.log("onVideoStateChange(): ", state)
-        if (state == "STOP") {
-            videoElement.srcObject = undefined
-            videoElement.src = agentManager.agent.presenter.idle_video
-            videoElement.play()
-        }
-        else {
-            videoElement.src = ""
-            videoElement.srcObject = srcObject
-            connectionLabel.innerHTML = "Online"
-        }
-    },
+      console.log("onVideoStateChange(): ", state)
+      if (state == "STOP") {
+          videoElement.muted = true
+          videoElement.srcObject = undefined
+          videoElement.src = agentManager.agent.presenter.idle_video
+      }
+      else {
+          videoElement.muted = false
+          videoElement.src = ""
+          videoElement.srcObject = srcObject
+          connectionLabel.innerHTML = "Online"
+      }
+  },
 
     // New messages callback method
     onNewMessage(messages, type) {
