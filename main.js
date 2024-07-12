@@ -74,6 +74,7 @@ const callbacks = {
         if (state == "STOP") {
             videoElement.srcObject = undefined
             videoElement.src = agentManager.agent.presenter.idle_video
+            videoElement.play()
         }
         else {
             videoElement.src = ""
