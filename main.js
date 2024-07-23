@@ -48,6 +48,7 @@ const callbacks = {
             // Setting the 'Enter' Key to Send a message
             textArea.addEventListener('keypress', (event) => { if (event.key === "Enter") { event.preventDefault(); chat() } })
 
+            textArea.removeAttribute("disabled")
             chatButton.removeAttribute("disabled")
             speakButton.removeAttribute("disabled")
             langSelect.removeAttribute("disabled")
@@ -60,6 +61,7 @@ const callbacks = {
             document.querySelector("#hidden_h2").innerHTML = `${agentManager.agent.preview_name} Disconnected`
             document.querySelector("#hidden").style.display = "block"
             document.querySelector("#container").style.display = "none"
+            textArea.setAttribute("disabled", true)
             chatButton.setAttribute("disabled", true)
             speakButton.setAttribute("disabled", true)
             langSelect.setAttribute("disabled", true)
