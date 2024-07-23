@@ -58,3 +58,11 @@ div {
 #hidden {
     text-align: center;
 }
+
+#speechButton {
+    color: black;
+}
+
+#speechButton:disabled {
+    color: rgba(16, 16, 16, 0.3)
+}
