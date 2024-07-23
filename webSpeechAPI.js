@@ -22,8 +22,7 @@ recognition.onresult = function (event) {
 
 function reset() {
   recognizing = false;
-  speechButton.style.color = "black"
-  // speechButton.innerHTML = "&#127908;";
+  speechButton.style.color = ""
   speechButton.innerHTML = `<span class="material-symbols-outlined">mic</span>`;
   chatButton.removeAttribute("disabled")
   speakButton.removeAttribute("disabled")
