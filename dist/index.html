@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <title>D-ID Agents SDK Demo</title>
+    <script type="module" crossorigin src="/assets/index-BflyccGI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D5aC1aN6.css">
+  </head>
+
+  <body>
+    <div id="container">
+      <div id="avatar">
+        <div class="header">
+          <span id="previewName">Your Agent</span>
+          <span id="connectionLabel">Connecting..</span>
+        </div>
+
+        <div id="video">
+          <video id="videoElement" autoplay loop></video>
+        </div>
+
+        <div>
+          <button
+            id="chatButton"
+            title="agentManager.chat() -> Communicate with your Agent (D-ID LLM)"
+          >
+            Chat
+          </button>
+          <button
+            id="speakButton"
+            title="agentManager.speak() -> Streaming API (Bring your own LLM)"
+          >
+            Speak
+          </button>
+        </div>
+      </div>
+      <div id="inputs">
+        <h2>Chat</h2>
+        <div id="answers"></div>
+        <div class="inputsDiv">
+          <div id="sendMessage">
+            <input
+              type="text"
+              id="textArea"
+              placeholder="Type a message"
+              autofocus
+            />
+            <button title="Send Message" id="sendButton">&#11166;</button>
+          </div>
+          <div id="selectAndSpeak" style="display: flex">
+            <select id="langSelect" title="Speech to Text - Language Selection">
+              <option value="en_US" disabled selected>TTS Language</option>
+              <option value="en_US" default>English</option>
+              <option value="es_ES">Spanish</option>
+              <option value="fr_FR">French</option>
+              <option value="it_IT">Italian</option>
+              <option value="de_DE">German</option>
+              <option value="he_IL">Hebrew</option>
+              <option value="ru_RU">Russian</option>
+            </select>
+            <button
+              id="speechButton"
+              title="Speech to Text - Web Speech API (MDN)"
+            >
+              &#127908;
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="hidden" style="display: none">
+      <h2 id="hidden_h2"></h2>
+      <button
+        id="reconnectButton"
+        title="agentManager.reconnect() -> Reconnects the previous WebRTC session"
+      >
+        Reconnect
+      </button>
+    </div>
+    <script src="/src/webSpeechAPI.js"></script>
+  </body>
+</html>

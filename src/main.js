@@ -216,7 +216,7 @@ chatButton.addEventListener("click", () => chat());
 speakButton.addEventListener("click", () => speak());
 reconnectButton.addEventListener("click", () => reconnect());
 speechButton.addEventListener("click", () => toggleStartStop());
-sendButton.addEventListener("click", () => chat())
+sendButton.addEventListener("click", () => chat());
 
 // Focus on input and button disabling when loading
 window.addEventListener("load", () => {
@@ -228,11 +228,15 @@ window.addEventListener("load", () => {
 
 // *** Finally ***
 // 6. Create the 'agentManager' instance with the values created in previous steps
-let agentManager = await sdk.createAgentManager(agentId, {
-  auth,
-  callbacks,
-  streamOptions,
-});
+async function initializeAgentManager() {
+  let agentManager = await sdk.createAgentManager(agentId, {
+    auth,
+    callbacks,
+    streamOptions,
+  });
+}
+
+initializeAgentManager();
 
 console.log("sdk.createAgentManager()", agentManager);
 
