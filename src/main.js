@@ -229,14 +229,14 @@ window.addEventListener("load", () => {
 // *** Finally ***
 // 6. Create the 'agentManager' instance with the values created in previous steps
 async function initializeAgentManager() {
-  let agentManager = await sdk.createAgentManager(agentId, {
+  return await sdk.createAgentManager(agentId, {
     auth,
     callbacks,
     streamOptions,
   });
 }
 
-initializeAgentManager();
+let agentManager = initializeAgentManager();
 
 console.log("sdk.createAgentManager()", agentManager);
 
