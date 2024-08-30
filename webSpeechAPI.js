@@ -1,3 +1,4 @@
+// Following code is for recognizing text from mic
 var recognizing;
 
 if (navigator.userAgent.includes("Firefox")) {
