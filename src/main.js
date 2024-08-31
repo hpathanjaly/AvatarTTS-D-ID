@@ -4,6 +4,8 @@ import "./style.css";
 // 1. Import the Agents SDK library
 import * as sdk from "@d-id/client-sdk";
 
+import { toggleStartStop } from "./webSpeechAPI";
+
 // 2. Paste the `data-agent-id' in the 'agentId' variable
 let agentId = "agt_2Ln7eSse";
 
@@ -216,7 +218,7 @@ chatButton.addEventListener("click", () => chat());
 speakButton.addEventListener("click", () => speak());
 reconnectButton.addEventListener("click", () => reconnect());
 speechButton.addEventListener("click", () => toggleStartStop());
-sendButton.addEventListener("click", () => chat())
+sendButton.addEventListener("click", () => chat());
 
 // Focus on input and button disabling when loading
 window.addEventListener("load", () => {

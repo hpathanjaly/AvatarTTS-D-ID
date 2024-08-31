@@ -11,17 +11,39 @@ if (navigator.userAgent.includes("Firefox")) {
 recognition.lang = langSelect.value;
 recognition.continuous = true;
 reset();
-recognition.onend = reset;
+// recognition.onend = reset;
+recognition.onend = function () {
+  console.log("Recognition ended.");
+  reset();
+};
 
-recognition.onresult = function (event) {
+recognition.onerror = function (event) {
+  console.error("Speech recognition error:", event.error);
+  console.error("Event:", event);
+  reset();
+};
+
+recognition.onstart = function () {
+  console.log("Recognition started.");
+};
+
+recognition.onaudiostart = function () {
+  console.log("Audio capturing started.");
+};
+
+recognition.onresult = handleSpeechRecognitionResult;
+
+function handleSpeechRecognitionResult(event) {
+  console.log("onresult triggered");
   console.log(event);
+
   for (var i = event.resultIndex; i < event.results.length; ++i) {
     if (event.results[i].isFinal) {
-      console.log("..");
+      console.log("Final result:", event.results[i][0].transcript);
       textArea.value += event.results[i][0].transcript;
     }
   }
-};
+}
 
 function reset() {
   recognizing = false;
@@ -31,7 +53,7 @@ function reset() {
   speakButton.removeAttribute("disabled");
 }
 
-function toggleStartStop() {
+export function toggleStartStop() {
   recognition.lang = langSelect.value;
   if (recognizing) {
     textArea.focus();
@@ -42,7 +64,7 @@ function toggleStartStop() {
     recognition.start();
     recognizing = true;
     speechButton.style.color = "red";
-    speechButton.innerHTML = "&#x23F9;";
+    // speechButton.innerHTML = "&#x23F9;";
     chatButton.setAttribute("disabled", true);
     speakButton.setAttribute("disabled", true);
   }
