@@ -12,7 +12,11 @@
 
   <body>
     <nav>
-      <img src="./src/aig-logo-transparent.png" alt="AIG logo" id="logo" />
+      <img
+        src="./src/images/aig-logo-transparent.png"
+        alt="AIG logo"
+        id="logo"
+      />
     </nav>
     <div id="container">
       <div id="avatar">
@@ -27,12 +31,14 @@
 
         <div>
           <button
+            class="btn btn-dark"
             id="chatButton"
             title="agentManager.chat() -> Communicate with your Agent (D-ID LLM)"
           >
             Chat
           </button>
           <button
+            class="btn btn-dark"
             id="speakButton"
             title="agentManager.speak() -> Streaming API (Bring your own LLM)"
           >
@@ -46,15 +52,18 @@
         <div class="inputsDiv">
           <div id="sendMessage">
             <input
+              class="form-control"
               type="text"
               id="textArea"
               placeholder="Type a message"
               autofocus
             />
-            <button title="Send Message" id="sendButton">&#11166;</button>
+            <button class="btn btn-dark" title="Send Message" id="sendButton">
+              &#11166;
+            </button>
           </div>
           <div id="selectAndSpeak" style="display: flex">
-            <select id="langSelect" title="Speech to Text - Language Selection">
+            <select id="langSelect" title="Speech to Text - Language Selection" class="form-select">
               <option value="en_US" disabled selected>TTS Language</option>
               <option value="en_US" default>English</option>
               <option value="es_ES">Spanish</option>
@@ -65,6 +74,7 @@
               <option value="ru_RU">Russian</option>
             </select>
             <button
+              class="btn btn-dark"
               id="speechButton"
               title="Speech to Text - Web Speech API (MDN)"
             >
@@ -77,13 +87,14 @@
     <div id="hidden" style="display: none">
       <h2 id="hidden_h2"></h2>
       <button
+        class="btn btn-dark"
         id="reconnectButton"
         title="agentManager.reconnect() -> Reconnects the previous WebRTC session"
       >
         Reconnect
       </button>
     </div>
-    <script type="module" src="/src/main.js"></script>
-    <script type="module" src="/src/webSpeechAPI.js"></script>
+    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/js/webSpeechAPI.js"></script>
   </body>
 </html>

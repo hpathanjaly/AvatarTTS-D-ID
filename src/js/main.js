@@ -1,5 +1,8 @@
 // CSS import
-import "./style.css";
+import "../scss/style.scss";
+
+// Import all of Bootstrap's JS
+import * as bootstrap from "bootstrap";
 
 // 1. Import the Agents SDK library
 import * as sdk from "@d-id/client-sdk";
@@ -44,7 +47,7 @@ const callbacks = {
     console.log("onConnectionStateChange(): ", state);
 
     if (state == "connecting") {
-      connectionLabel.innerHTML = "Connecting..";
+      connectionLabel.innerHTML = "Connecting...";
       document.querySelector("#container").style.display = "flex";
       document.querySelector("#hidden").style.display = "none";
     } else if (state == "connected") {
@@ -72,7 +75,7 @@ const callbacks = {
         "#hidden_h2"
       ).innerHTML = `${agentManager.agent.preview_name} Disconnected`;
       document.querySelector("#hidden").style.display = "block";
-      document.querySelector("#container").style.display = "none";
+      // document.querySelector("#container").style.display = "none";
       chatButton.setAttribute("disabled", true);
       speakButton.setAttribute("disabled", true);
       langSelect.setAttribute("disabled", true);
@@ -226,6 +229,7 @@ window.addEventListener("load", () => {
   speakButton.setAttribute("disabled", true);
   langSelect.setAttribute("disabled", true);
   speechButton.setAttribute("disabled", true);
+  sendButton.setAttribute("disabled", true);
 });
 
 // *** Finally ***

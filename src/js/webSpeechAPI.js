@@ -47,7 +47,7 @@ function handleSpeechRecognitionResult(event) {
 
 function reset() {
   recognizing = false;
-  speechButton.style.color = "";
+  speechButton.style.color = "white";
   speechButton.innerHTML = `<span class="material-symbols-outlined">mic</span>`;
   chatButton.removeAttribute("disabled");
   speakButton.removeAttribute("disabled");

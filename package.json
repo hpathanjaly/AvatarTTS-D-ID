@@ -1,10 +1,15 @@
 {
   "dependencies": {
     "@d-id/client-sdk": "^1.0.19-beta.124",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.3",
     "vite": "^5.4.2"
   },
   "scripts": {
-    "dev": "vite --port 3000",
+    "dev": "vite",
     "build": "vite build"
+  },
+  "devDependencies": {
+    "sass": "^1.77.8"
   }
 }

@@ -1,3 +1,6 @@
+// Import all of Bootstrap's CSS
+@import "bootstrap/scss/bootstrap";
+
 body,
 html {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -43,7 +46,7 @@ div {
 
 .inputsDiv {
   display: flex;
-  height: 5%;
+  height: 10%;
   /* max-width: 500px; */
   /* min-width: 45%; */
 }
@@ -53,12 +56,14 @@ div {
 }
 
 #answers {
-  height: 85%;
+  height: 80%;
   overflow: scroll;
 }
 
 #hidden {
   text-align: center;
+  width: 100%;
+  background-color: rgba(112, 112, 112, 0.486);
 }
 
 #speechButton {
@@ -71,21 +76,27 @@ div {
 
 /* My style */
 #avatar {
-  width: 55%;
+  width: 65%;
 }
 
 #inputs {
-  width: 45%;
+  width: 35%;
   height: 100%;
 }
 
 #video {
   text-align: center;
+  // width: 80%;
+  overflow: hidden;
+  // height: 80%;
+  margin: auto;
+  // border-radius: 10%;
 }
 
 video {
-  height: 800px;
-  width: 800px;
+  margin-left: -20px;
+  width: 650px;
+  border-radius: 10%;
 }
 
 #sendMessage {
